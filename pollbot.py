@@ -1,10 +1,13 @@
 from matrix_bot_api.matrix_bot_api import MatrixBotAPI
+
 from matrix_bot_api.mhandler import MHandler
 from matrix_bot_api.mregex_handler import MRegexHandler
 from matrix_bot_api.mcommand_handler import MCommandHandler
 
 import configparser
 import pickle
+
+import signal
 
 # Bot's Matrix credentials
 M_USERNAME = ""
@@ -328,12 +331,17 @@ def main():
 
     bot.start_polling()
     print("Pollbot started!")
-
-    while True:
-        input()
+    cont = True
+    def sig_handle(signo, frame):
+        print ("Gracefully shutting down")
+        cont = False
+    signal.signal(signal.SIGINT, sig_handle)
+    while cont:
+        signal.pause()
 
 
 
 
 if __name__ == "__main__":
     main()
+
