@@ -14,6 +14,8 @@ M_USERNAME = ""
 M_PASSWORD = ""
 M_SERVER = ""
 
+BOT_CONT = True
+
 class AllMessageHandler(MHandler):
     def __init__(self, handle_callback):
         MHandler.__init__(self, self.check_update, handle_callback)
@@ -331,12 +333,12 @@ def main():
 
     bot.start_polling()
     print("Pollbot started!")
-    cont = True
     def sig_handle(signo, frame):
+        global BOT_CONT
         print ("Gracefully shutting down")
-        cont = False
+        BOT_CONT = False
     signal.signal(signal.SIGINT, sig_handle)
-    while cont:
+    while BOT_CONT:
         signal.pause()
 
 
